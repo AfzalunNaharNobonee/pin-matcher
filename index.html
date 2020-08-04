@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pin Generator</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="pin-generator half-width">
+                    <input id="generate-pin-input" class="form-control" type="text">
+                    <button id="generate-pin-btn" class="generate-btn">Generate Pin</button>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="input-section half-width">
+                    <input id="input-screen" class="form-control" type="text">
+                    <p id="time-out-info">Refresh to try again</p>
+                    <div id="submit-section"  class="numbers">
+                        <div class="calc-body">
+                            <div class="calc-button-row">
+                              <div class="button" onclick="insert(7)">7</div>
+                              <div class="button" onclick="insert(8)">8</div>
+                              <div class="button" onclick="insert(9)">9</div>
+                            </div>
+                            <div class="calc-button-row">
+                              <div class="button" onclick="insert(4)">4</div>
+                              <div class="button" onclick="insert(5)">5</div>
+                              <div class="button" onclick="insert(6)">6</div>
+                            </div>
+                            <div class="calc-button-row">
+                              <div class="button" onclick="insert(1)">1</div>
+                              <div class="button" onclick="insert(2)">2</div>
+                              <div class="button" onclick="insert(3)">3</div>
+                            </div>
+                            <div class="calc-button-row">
+                                <div class="button" onclick="back()"><</div>
+                                <div class="button" onclick="insert(0)">0</div>
+                                <div id="clear-btn" class="button">C</div>
+                            </div>
+                            <div>
+                                <button id="submitting-btn" type="submit" class="submit-btn">Submit</button>
+                                <p class="action-left"><span id="try-times">3</span> try left</p>
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="notify-section">
+            <p id="try-again" class="notify">❌ Pin Didn't Match, Please try again</p>
+            <p id="pin-matched" class="notify">✅ Pin Matched... Secret door is opening for you</p>
+        </div>
+    </div>
+    <script>
+        const generatePinBtn = document.getElementById('generate-pin-btn');
+        generatePinBtn.addEventListener('click' , function(){
+            const getRandomNumber =  randomNumber(1000 , 9999);
+            document.getElementById('generate-pin-input').value =  getRandomNumber ;
+            document.getElementById('pin-matched').style.display = "none" ;
+            document.getElementById('try-again').style.display = "none";
+            document.getElementById('input-screen').value = '';
+        })
+
+
+        function randomNumber(start , range){
+            let getRandom = Math.floor((Math.random()*range)+start);
+            console.log(getRandom);
+            while(getRandom > range){
+                 getRandom = Math.floor((Math.random()*range)+start);
+            }
+            return getRandom ;   
+        }
+
+
+        function insert(num){
+            document.getElementById('input-screen').value =  document.getElementById('input-screen').value + num ;
+        }
+
+
+        const submittingBtn = document.getElementById('submitting-btn');
+        submittingBtn.addEventListener('click' , function(){
+            const generateBtnInput =  document.getElementById('generate-pin-input').value;
+            const generateBtnInputText = parseInt(generateBtnInput);
+
+            const submitBtnInput = document.getElementById('input-screen').value ;
+            const submitBtnInputText = parseInt(submitBtnInput);
+
+            if( generateBtnInputText == submitBtnInputText){
+                document.getElementById('pin-matched').style.display = "block" ;
+                document.getElementById('input-screen').value = '';
+                document.getElementById('generate-pin-input').value = '';
+            }
+            else 
+            document.getElementById('try-again').style.display = "block";
+            document.getElementById('input-screen').value = '';
+            document.getElementById('generate-pin-input').value = '';
+
+            
+        const tryTimes = document.getElementById('try-times').innerText ;
+        let tryTimesLeft = parseInt(tryTimes) ;
+        console.log(tryTimesLeft);
+        
+        if(tryTimesLeft>0){
+            tryTimesLeft = tryTimesLeft - 1;
+        }
+        document.getElementById('try-times').innerText = tryTimesLeft ;
+        if(tryTimesLeft == 0){
+            document.getElementById('submit-section').style.display = "none" ;
+            document.getElementById('time-out-info').style.display = "block" ;
+        }
+
+        })
+
+        const clearBtn = document.getElementById('clear-btn');
+        clearBtn.addEventListener('click' , function(){
+            document.getElementById('input-screen').value = '';
+
+        })
+        function back(){
+            let exp =  document.getElementById('input-screen').value;
+            document.getElementById('input-screen').value = exp.substring(0 , exp.length-1);
+        }
+
+
+    </script>
+</body>
+</html>
