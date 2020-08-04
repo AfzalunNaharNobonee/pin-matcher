@@ -56,6 +56,8 @@
         </div>
     </div>
     <script>
+
+        //function when generate button pressed
         const generatePinBtn = document.getElementById('generate-pin-btn');
         generatePinBtn.addEventListener('click' , function(){
             const getRandomNumber =  randomNumber(1000 , 9999);
@@ -65,7 +67,7 @@
             document.getElementById('input-screen').value = '';
         })
 
-
+        //to generate random number
         function randomNumber(start , range){
             let getRandom = Math.floor((Math.random()*range)+start);
             console.log(getRandom);
@@ -75,33 +77,40 @@
             return getRandom ;   
         }
 
-
+        //to insert numbers
         function insert(num){
             document.getElementById('input-screen').value =  document.getElementById('input-screen').value + num ;
         }
 
-
+        //function when press submit button
         const submittingBtn = document.getElementById('submitting-btn');
         submittingBtn.addEventListener('click' , function(){
+
             const generateBtnInput =  document.getElementById('generate-pin-input').value;
             const generateBtnInputText = parseInt(generateBtnInput);
-
+            
             const submitBtnInput = document.getElementById('input-screen').value ;
             const submitBtnInputText = parseInt(submitBtnInput);
+            
 
             if( generateBtnInputText == submitBtnInputText){
                 document.getElementById('pin-matched').style.display = "block" ;
                 document.getElementById('input-screen').value = '';
                 document.getElementById('generate-pin-input').value = '';
             }
-            else {
+            else if(generateBtnInput == '' || submitBtnInput == ''){
+                alert("Generate number properly or please put you input first and then submit");
+            
+            }
+            else if( generateBtnInputText != submitBtnInputText){
             document.getElementById('try-again').style.display = "block";
             document.getElementById('input-screen').value = '';
             document.getElementById('generate-pin-input').value = '';
             tryLimit();
             }
-
         })
+
+        //function to find out try times left
         function tryLimit(){
             const tryTimes = document.getElementById('try-times').innerText ;
             let tryTimesLeft = parseInt(tryTimes) ;
@@ -117,11 +126,14 @@
             }
         }
 
+        //function to handle clear button 
         const clearBtn = document.getElementById('clear-btn');
         clearBtn.addEventListener('click' , function(){
             document.getElementById('input-screen').value = '';
 
         })
+
+        //function to handle back button 
         function back(){
             let exp =  document.getElementById('input-screen').value;
             document.getElementById('input-screen').value = exp.substring(0 , exp.length-1);
