@@ -94,26 +94,28 @@
                 document.getElementById('input-screen').value = '';
                 document.getElementById('generate-pin-input').value = '';
             }
-            else 
+            else {
             document.getElementById('try-again').style.display = "block";
             document.getElementById('input-screen').value = '';
             document.getElementById('generate-pin-input').value = '';
-
-            
-        const tryTimes = document.getElementById('try-times').innerText ;
-        let tryTimesLeft = parseInt(tryTimes) ;
-        console.log(tryTimesLeft);
-        
-        if(tryTimesLeft>0){
-            tryTimesLeft = tryTimesLeft - 1;
-        }
-        document.getElementById('try-times').innerText = tryTimesLeft ;
-        if(tryTimesLeft == 0){
-            document.getElementById('submit-section').style.display = "none" ;
-            document.getElementById('time-out-info').style.display = "block" ;
-        }
+            tryLimit();
+            }
 
         })
+        function tryLimit(){
+            const tryTimes = document.getElementById('try-times').innerText ;
+            let tryTimesLeft = parseInt(tryTimes) ;
+            console.log(tryTimesLeft);
+            
+            if(tryTimesLeft>0){
+                tryTimesLeft = tryTimesLeft - 1;
+            }
+            document.getElementById('try-times').innerText = tryTimesLeft ;
+            if(tryTimesLeft == 0){
+                document.getElementById('submit-section').style.display = "none" ;
+                document.getElementById('time-out-info').style.display = "block" ;
+            }
+        }
 
         const clearBtn = document.getElementById('clear-btn');
         clearBtn.addEventListener('click' , function(){
